@@ -624,7 +624,7 @@ $icon-youtube-square: "\f166" !default;
 */
 
 .fa {
-	@extend %icon_font;
+	@include icon($family: 'FontAwesome');
 }
 
 .fa-glass:before { content: $icon-glass; }

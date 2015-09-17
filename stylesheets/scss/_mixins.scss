@@ -3,6 +3,22 @@
 
 // -- Mixins for common patterns, utility and compatability -- //
 
+@mixin icon($icon: false, $family: $font-icon) {
+  font-family: $family;
+  speak: none;
+  font-style: normal;
+  font-weight: normal;
+  font-variant: normal;
+  text-transform: none;
+  line-height: 1;
+  /* Better Font Rendering =========== */
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  @if ($icon) {
+    content: $icon;
+  }
+}
+
 @mixin clearfix {
   zoom: 1;  // Triggering "hasLayout" in IE
   &:after {
@@ -14,11 +30,7 @@
   } // after
 } // @mixin clearfix
 
-%clearfix {
-  @include clearfix;
-}
-
-@mixin hover_focus_underline {
+@mixin hover-focus-underline {
 	text-decoration: none;
 	&:hover,
 	&:focus {
@@ -26,7 +38,7 @@
 	} // hover, focus
 } // @mixin hover_focus_underline
 
-@mixin no_list {
+@mixin no-list {
   // This one is particularly useful in Drupal where list often use list-style-image
   list-style-image: none;
   list-style-position: outside;
@@ -34,7 +46,7 @@
   list-style: none;
 } // @mixin nolist
 
-@mixin responsive_image {
+@mixin responsive-image {
   max-width: 100%;
   height: auto;
   .ie8 & {
@@ -42,18 +54,25 @@
   } // ie8
 } // @mixin responsive_image
 
-@mixin font_size($size) {
-  font-size: $size+px;
-  font-size: $size/10+rem;
+//rem fallback.  Usage: @include rem(font-size, 1.4);
+@mixin rem($property, $rem) {
+  #{$property}: #{$rem*10}px;
+  #{$property}: #{$rem}rem;
+}
+
+//The old rem fallback
+//NOTE: this can be removed after Sep 9, 2015
+@mixin font-size($size) {
+  @include rem(font-size, $size/10);
 } // @mixin font_size
 
-@mixin inline_block {
+@mixin inline-block {
   display: inline-block;
   zoom: 1;
   *display: inline;
 } // @mixin inline-block
 
-@mixin font_weight($weight) {
+@mixin font-weight($weight) {
   @if $weight == normal {
     font-weight: normal;
     font-weight: $font_weight-normal;
@@ -68,17 +87,14 @@
   }
 } // @mixin font_weight
 
-%icon_font {
-  font-family: $font-icon;
-  speak: none;
-  font-style: normal;
-  font-weight: normal;
-  font-variant: normal;
-  text-transform: none;
-  line-height: 1;
-  text-rendering: auto;
-  transform: translate(0, 0);
-  /* Better Font Rendering =========== */
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
+@mixin full-width {
+  width: 100%;
+  float: none;
+  clear: both;
+}
+
+@mixin small-full {
+  @media (max-width: $breakpoint-small) {
+    @include full-width;
+  } // small
 }
